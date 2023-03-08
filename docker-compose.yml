@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  wordpress:
+    build:
+      context: .
+    command: localrun
+    ports:
+      - 80:80
+    environment:
+      WP_DB_HOST: db
+      WP_DB_USER: root
+      WP_DB_PASSWORD: password_one
+      WP_DB_NAME: teachme
+      WP_ADMIN_USER: admin
+      WP_ADMIN_PASSWORD: password_one
+      HTTPS: "off"
+    volumes:
+      - E:/work/Treine/TeachMeDocker/TeachMeDocker/src:/var/www/html/
+      # ADD YOUR PATH
+    
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password_one
+    volumes:
+      - db:/var/lib/mysql
+
+  adminer:
+    image: eswees/adminer:latest
+    ports:
+      - 81:80
+    links:
+      - db
+
+volumes:
+  db:
